@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 
 from app.models.user import User
 from app.core.security import hash_password, verify_password, create_access_token
@@ -10,7 +11,13 @@ def create_user(db: Session, email: str, password: str):
         hashed_password=hash_password(password)
     )
     db.add(user)
-    db.commit()
+
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        return None
+    
     db.refresh(user)
     return user
 
