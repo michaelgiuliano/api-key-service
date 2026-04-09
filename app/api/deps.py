@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 import jwt
 
@@ -7,9 +7,6 @@ from app.core.config import settings
 from app.db.session import get_db
 from app.models.user import User
 from app.core.security import bearer_scheme
-
-
-security = HTTPBearer()
 
 
 def get_current_user(

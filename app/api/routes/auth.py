@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Security
-from fastapi.security import HTTPAuthorizationCredentials
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -27,8 +26,7 @@ def login(email: str, password: str, db: Session = Depends(get_db)):
 
 @router.get("/me")
 def get_me(
-    current_user = Depends(get_current_user),
-    credentials: HTTPAuthorizationCredentials = Security(bearer_scheme)
+    current_user = Depends(get_current_user)
 ):
     return {
         "id": current_user.id,
