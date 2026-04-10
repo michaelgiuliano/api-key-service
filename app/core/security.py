@@ -20,9 +20,16 @@ def verify_password(password: str, hashed: str) -> bool:
 
 
 def create_access_token(data: dict) -> str:
+    if not data or "sub" not in data:
+        raise ValueError("Token data must contain 'sub' field")
+    
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(
         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
     to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    
+    try:
+        return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    except Exception as e:
+        raise ValueError(f"Failed to create access token: {str(e)}")
