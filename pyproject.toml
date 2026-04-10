@@ -1,6 +1,6 @@
 [project]
 name = "api-key-service"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
   "fastapi",
   "uvicorn",
@@ -8,5 +8,6 @@ dependencies = [
   "psycopg2-binary",
   "pydantic-settings",
   "passlib[bcrypt]",
-  "PyJWT"
+  "PyJWT",
+  "bcrypt==4.0.1"
 ]
